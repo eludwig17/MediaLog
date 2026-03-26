@@ -1,8 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import React from 'react';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend} from 'react-dnd-html5-backend'
+import Home from './pages/Home.jsx'
+import About from './pages/About.jsx'
 import './App.css'
+
 
 function App() {
 
@@ -15,4 +17,15 @@ function App() {
   )
 }
 
-export default App
+export default function App(){
+    return (
+        <BrowserRouter>
+            <DndProvider backend={HTML5Backend}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />"
+                </Routes>
+            </DndProvider>
+        </BrowserRouter>
+    )
+}

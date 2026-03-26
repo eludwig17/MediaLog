@@ -10,5 +10,10 @@ def home():
 def health():
 	return {"status": "ok"}
 
+
+@app.route("/eli")
+def eli():
+	return {"status": "stinky"}
+
 if __name__ == "__main__":
 	app.run(debug=True)

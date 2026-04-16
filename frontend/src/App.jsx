@@ -9,6 +9,9 @@ export default function App(){
            <Routes>
                <Route path="/" element={<Home />} />
                <Route path="/about" element={<About />} />
+               {/*<Route path="/add" element={}/>*/}
+               {/*<Route path="/authors" element={}/>*/}
+               {/*<Route path="/books" element={}/>*/}
            </Routes>
         </BrowserRouter>
     )

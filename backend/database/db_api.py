@@ -13,16 +13,17 @@ class DBAPI:
         app.config["MONGO_URI"] = f"mongodb://{address}:{port}/{database}"
         self.mongo = PyMongo(app)
 
-    def InsertBook(self, isbn, title, authorID, publishYear, publisherUID, locale) -> bool:
+    def InsertBook(self, isbn, title, authorIDs, publishYear, publisherUIDs, locale, genres=[]) -> bool:
         try:
             self.mongo.db.books.insert_one(
             {
                 "isbn": isbn,
                 "title": title,
-                "authorID": authorID,
+                "authorIDs": authorIDs,
                 "publishYear": publishYear,
-                "publisherUID": publisherUID,
-                "locale": locale
+                "publisherUIDs": publisherUIDs,
+                "locale": locale,
+                "genres": genres,
             })
             return True
         except Exception as e:
@@ -77,3 +78,6 @@ class DBAPI:
         
     def GetPublishers(self) -> list:
         return list(self.mongo.db.publishers.find())
+
+    def GetPublisherByUID(self, publisherUID) -> dict:
+        return self.mongo.db.publishers.find_one({"publisherUID": publisherUID})

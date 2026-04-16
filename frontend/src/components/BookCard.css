@@ -1,0 +1,57 @@
+@reference "tailwindcss";
+
+.book-card {
+    @apply bg-white border border-stone-200 rounded-xl overflow-hidden cursor-pointer transition hover:-translate-y-1 hover:border-stone-300;
+}
+
+.book-spine {
+    @apply h-28 p-3 flex items-start justify-end relative;
+}
+
+.book-badge {
+    @apply text-xs font-medium px-2 py-0.5 rounded-full;
+}
+
+.badge-reading {
+    @apply bg-emerald-50 text-emerald-800;
+}
+
+.badge-done {
+    @apply bg-amber-50 text-amber-800;
+}
+
+.badge-want {
+    @apply bg-stone-100 text-stone-600;
+}
+
+.book-info {
+    @apply px-4 py-3 flex flex-col gap-1;
+}
+
+.book-title {
+    @apply text-sm font-medium text-stone-800 leading-snug;
+}
+
+.book-author {
+    @apply text-xs text-stone-400;
+}
+
+.book-progress {
+    @apply flex flex-col gap-1 mt-1;
+}
+
+.progress-bar {
+    @apply h-1 bg-stone-100 rounded-full overflow-hidden;
+}
+
+.progress-fill {
+    @apply h-full bg-emerald-400 rounded-full;
+}
+
+.progress-label {
+    @apply text-xs text-stone-300;
+}
+
+.book-stars {
+    @apply text-xs text-amber-400 mt-1;
+}

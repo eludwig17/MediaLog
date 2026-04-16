@@ -1,12 +1,15 @@
 import DBAPI from "../database"
+from flask import Flask, request, jsonify
+app = Flask(__name__)
 class Library:
 
     @app.route("/api/books/<int:isbn>")
     def getbooks(isbn):
         data = DBAPI.GetBookByISBN(isbn)
         return jsonify(data),200
+    
     @app.route("/api/books/add", methods=['POST'])
-    def add_book(book):
+    def add_book():
         book = request.get_json()
         result = DBAPI.InsertBook(
             book["isbn"],
@@ -25,7 +28,7 @@ class Library:
         return jsonify(data),200
     
     @app.route("/api/authors/add", methods=['POST'])
-    def addauthor(author):
+    def addauthor():
         author = request.get_json()
         result = DBAPI.InsertAuthor(
             author["AuthorUID"],
@@ -36,3 +39,17 @@ class Library:
             author["Hometown"],
             author["Country"])
         return jsonify({"sucess":True, "result": result}), 201
+
+    @app.route("/api/publishers")
+    def getpublisher():
+       publishers = DBAPI.getpublisher()
+       return jsonify(publishers),200
+
+    @app.route("/api/publishers/add", methods=['POST'])
+    def addpublisher():
+        publisher = request.get_json()
+        result = DBAPI.InsertPublisher(
+            publisher["publisherUIDs"],
+            publisher["name"],
+            publisher["location"])
+        return jsonify({"success":True, "result": result}), 201

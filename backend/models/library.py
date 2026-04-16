@@ -17,6 +17,8 @@ class Library:
             book["Locale"])
         return jsonify({"success": True, "result": result}),201
     
+
+    
     @app.route("/api/authors/<int:uid>")
     def getauthors(uid):
         data = DBAPI.GetAuthorByID(uid)

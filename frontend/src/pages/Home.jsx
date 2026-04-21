@@ -1,23 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavBar from '../components/NavBar.jsx'
 import BookCard from '../components/BookCard.jsx'
+import { fetchPlaceholderBooks } from '../services/openLibrary.js'
+import './Home.css'
 
 const FILTERS = [
-    { label: 'All', value: 'all' },
-    { label: 'Reading', value: 'reading' },
-    { label: 'Finished', value: 'done' },
-    { label: 'Want to read', value: 'want' },
-]
-const placeholders = [
-    { _id: '1', title: 'Frontend', author: 'Elijah', genre: 'Dev', status: 'WIP'},
-    { _id: '2', title: 'BackendDB', author: 'Brian', genre: 'Dev', status: 'WIP' },
-    { _id: '3', title: 'Backend1', author: 'Anthony', genre: 'Dev', status: 'WIP' },
+    { label: 'All',          value: 'all'     },
+    { label: 'Reading',      value: 'reading' },
+    { label: 'Finished',     value: 'done'    },
+    { label: 'Want to read', value: 'want'    },
 ]
 
 export default function Home() {
-    const [search, setSearch] = useState('')
+    const [books, setBooks]               = useState([])
+    const [loading, setLoading]           = useState(true)
+    const [search, setSearch]             = useState('')
     const [activeFilter, setActiveFilter] = useState('all')
-    const filtered = placeholders.filter(book => {
+
+    useEffect(() => {
+        fetchPlaceholderBooks()
+            .then(data => { setBooks(data); setLoading(false) })
+            .catch(() => setLoading(false))
+    }, [])
+
+    const filtered = books.filter(book => {
         const matchesFilter = activeFilter === 'all' || book.status === activeFilter
         const matchesSearch =
             book.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -50,11 +56,15 @@ export default function Home() {
                         </button>
                     ))}
                 </div>
-                <div className="books-grid">
-                    {filtered.map(book => (
-                        <BookCard key={book._id} book={book} />
-                    ))}
-                </div>
+                {loading ? (
+                    <p className="loading-msg">Loading books...</p>
+                ) : (
+                    <div className="books-grid">
+                        {filtered.map(book => (
+                            <BookCard key={book._id} book={book} />
+                        ))}
+                    </div>
+                )}
             </main>
         </div>
     )

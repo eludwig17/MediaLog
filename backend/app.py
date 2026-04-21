@@ -4,10 +4,10 @@ from flask_pymongo import PyMongo
 from bson import ObjectId
 from scripts import ScrapWiki
 from database.db_api import DBAPI
-
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 db = DBAPI(app)
 
 @app.route("/")
@@ -62,6 +62,13 @@ def import_book():
     )
 
     return jsonify(result), 201
+
+@app.route("/api/books", methods=["GET"])
+def get_books():
+    books = db.GetBooks()
+    for book in books:
+        book["_id"] = str(book["_id"])
+    return jsonify(books), 200
 
 
 if __name__ == "__main__":

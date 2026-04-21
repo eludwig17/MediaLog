@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NavBar from '../components/NavBar.jsx'
 import BookCard from '../components/BookCard.jsx'
-import { fetchPlaceholderBooks } from '../services/openLibrary.js'
+import { getBooks } from '../services/api.js'
 import './Home.css'
 
 const FILTERS = [
@@ -18,9 +18,9 @@ export default function Home() {
     const [activeFilter, setActiveFilter] = useState('all')
 
     useEffect(() => {
-        fetchPlaceholderBooks()
-            .then(data => { setBooks(data); setLoading(false) })
-            .catch(() => setLoading(false))
+        getBooks()
+    .then(data => { setBooks(data); setLoading(false) })
+    .catch(() => setLoading(false))
     }, [])
 
     const filtered = books.filter(book => {

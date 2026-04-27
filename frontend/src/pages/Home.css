@@ -1,0 +1,39 @@
+@reference "tailwindcss";
+
+.page {
+    @apply min-h-screen bg-stone-50;
+}
+
+.home-main {
+    @apply max-w-5xl mx-auto px-8 py-10 flex flex-col gap-6;
+}
+
+.home-title {
+    @apply text-2xl font-medium text-stone-800;
+}
+
+.search-wrap {
+    @apply flex items-center bg-white border border-stone-200 rounded-xl px-4;
+}
+
+.search-input {
+    @apply w-full h-11 bg-transparent border-none outline-none text-sm text-stone-700 placeholder-stone-400;
+}
+
+.filter-chips {
+    @apply flex gap-2 flex-wrap;
+}
+
+.filter-chip {
+    @apply text-sm px-4 py-1.5 rounded-full border border-stone-200 bg-white
+    text-stone-500 cursor-pointer transition hover:bg-stone-100;
+}
+
+.filter-chip.active {
+    @apply bg-amber-50 border-amber-400 text-amber-800 font-medium;
+}
+
+.books-grid {
+    @apply grid gap-5;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}

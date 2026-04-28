@@ -27,11 +27,13 @@ def register(db):
         for book in books:
             book["_id"] = str(book["_id"])
         return jsonify(books), 200
-    
-    @library.route("/api/authors/<int:uid>")
-    def getauthors(uid):
-        data = db.GetAuthorByID(uid)
-        return jsonify(data),200
+
+    @library.route("/api/authors", methods=["GET"])
+    def get_authors():
+        authors = db.GetAuthors()
+        for author in authors:
+            author["_id"] = str(author["_id"])
+        return jsonify(authors), 200
     
     @library.route("/api/authors/add", methods=['POST'])
     def addauthor():
@@ -46,10 +48,12 @@ def register(db):
             author["Country"])
         return jsonify({"sucess":True, "result": result}), 201
 
-    @library.route("/api/publishers")
-    def getpublisher():
-       publishers = db.getpublisher()
-       return jsonify(publishers),200
+    @library.route("/api/publishers", methods=["GET"])
+    def get_publishers():
+        publishers = db.GetPublishers()
+        for pub in publishers:
+            pub["_id"] = str(pub["_id"])
+        return jsonify(publishers), 200
 
     @library.route("/api/publishers/add", methods=['POST'])
     def addpublisher():

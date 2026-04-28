@@ -5,9 +5,9 @@ import './Publishers.css'
 
 export default function Publishers() {
     const [publishers, setPublishers] = useState([])
-    const [loading, setLoading]       = useState(true)
-    const [search, setSearch]         = useState('')
-    const [expanded, setExpanded]     = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [search, setSearch] = useState('')
+    const [expanded, setExpanded] = useState(null)
 
     useEffect(() => {
         getPublishers()
@@ -34,8 +34,7 @@ export default function Publishers() {
                         type="text"
                         placeholder="Search publishers"
                         value={search}
-                        onChange={e => setSearch(e.target.value)}
-                    />
+                        onChange={e => setSearch(e.target.value)}/>
                     {search && (
                         <button className="search-clear" onClick={() => setSearch('')}>✕</button>
                     )}
@@ -52,8 +51,7 @@ export default function Publishers() {
                                 <div key={pub.publisherUID} className="list-item">
                                     <div
                                         className="list-row"
-                                        onClick={() => setExpanded(isOpen ? null : pub.publisherUID)}
-                                    >
+                                        onClick={() => setExpanded(isOpen ? null : pub.publisherUID)}>
                                         <div className="pub-avatar">
                                             {pub.name?.[0] || '?'}
                                         </div>

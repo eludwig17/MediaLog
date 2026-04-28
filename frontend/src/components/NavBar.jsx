@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import './NavBar.css'
 
 const LINKS = [
-    { path: '/',           label: 'Books'      },
-    { path: '/authors',    label: 'Authors'    },
+    { path: '/', label: 'Books' },
+    { path: '/authors', label: 'Authors' },
     { path: '/publishers', label: 'Publishers' }
 ]
 

@@ -30,7 +30,7 @@ class DBAPI:
             print(f"Error inserting book: {e}")
             return False
 
-    def GetBooks(self, limit: int = 10) -> list:
+    def GetBooks(self, limit: int = 200) -> list:
         return list(self.mongo.db.books.find().limit(limit))
     
     def GetBookByISBN(self, isbn) -> dict:
@@ -57,8 +57,8 @@ class DBAPI:
             print(f"Error inserting author: {e}")
             return False
         
-    def GetAuthors(self, limit: int = 10) -> list:
-        return list(self.mongo.db.authors.find().limit(limit))
+    def GetAuthors(self) -> list:
+        return list(self.mongo.db.authors.find())
     
     def GetAuthorByID(self, authorID) -> dict:
         return self.mongo.db.authors.find_one({"authorID": authorID})

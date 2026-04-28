@@ -1,0 +1,29 @@
+@reference "tailwindcss";
+
+.navbar {
+    @apply flex items-center justify-between px-8 h-14 bg-white border-b border-stone-200 sticky top-0 z-50;
+}
+
+.navbar-brand {
+    @apply flex items-center gap-2 cursor-pointer;
+}
+
+.navbar-logo {
+    @apply text-lg;
+}
+
+.navbar-title {
+    @apply text-base font-medium text-stone-800;
+}
+
+.navbar-links {
+    @apply flex items-center gap-1;
+}
+
+.navbar-link {
+    @apply text-sm text-stone-500 bg-transparent border-none px-3 py-1.5 rounded-lg cursor-pointer transition hover:bg-stone-100 hover:text-stone-800;
+}
+
+.navbar-link.active {
+    @apply bg-stone-100 text-stone-800 font-medium;
+}

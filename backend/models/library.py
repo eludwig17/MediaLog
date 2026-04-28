@@ -1,4 +1,3 @@
-# import DBAPI from "../database"
 from flask import Blueprint, request, jsonify
 library = Blueprint("library", __name__)
 
@@ -14,11 +13,12 @@ def register(db):
         book = request.get_json()
         result = db.InsertBook(
             book["isbn"],
-            book["Title"],
-            book["AuthorUID"],
-            book["PublishYear"],
-            book["PublishUID"],
-            book["Locale"])
+            book["title"],
+            book["authorIDs"],
+            book["publishYear"],
+            book["publisherUIDs"],
+            book["locale"],
+            book.get("genres", []))
         return jsonify({"success": True, "result": result}),201
 
     @library.route("/api/books", methods=["GET"])
@@ -39,6 +39,11 @@ def register(db):
                 db.mongo.db.books.update_one({"_id": ObjectId(isbn)}, {"$set": updates})
             except Exception:
                 return jsonify({"error": "Book not found"}), 404
+        return jsonify({"success": True}), 200
+
+    @library.route("/api/books/<isbn>", methods=["DELETE"])
+    def delete_book(isbn):
+        db.mongo.db.books.delete_one({"isbn": isbn})
         return jsonify({"success": True}), 200
 
     @library.route("/api/authors", methods=["GET"])

@@ -5,11 +5,19 @@ import BookModal from '../components/BookModal.jsx'
 import { getBooks } from '../services/api.js'
 import './Home.css'
 
+const FILTERS = [
+    { label: 'All', value: 'all' },
+    { label: 'Reading', value: 'reading' },
+    { label: 'Finished', value: 'done' },
+    { label: 'Want to read', value: 'want' }
+]
+
 export default function Home() {
     const [books, setBooks] = useState([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState('')
     const [selected, setSelected] = useState(null)
+    const [activeFilter, setActiveFilter] = useState('all')
 
     useEffect(() => {
         getBooks()
@@ -17,15 +25,22 @@ export default function Home() {
             .catch(() => setLoading(false))
     }, [])
 
-    const filtered = books.filter(book =>
-        (book.title || '').toLowerCase().includes(search.toLowerCase())
-    )
+    const filtered = books.filter(book => {
+    const matchesSearch = (book.title || '').toLowerCase().includes(search.toLowerCase())
+    const matchesFilter = activeFilter === 'all' || book.status === activeFilter
+    return matchesSearch && matchesFilter
+    })
 
     const handleStatusUpdate = (bookId, newStatus) => {
         setBooks(prev => prev.map(b =>
             b._id === bookId ? { ...b, status: newStatus } : b
         ))
         setSelected(prev => prev ? { ...prev, status: newStatus } : null)
+    }
+
+    const handleDelete = (bookId) => {
+    setBooks(prev => prev.filter(b => b._id !== bookId))
+    setSelected(null)
     }
 
     return (
@@ -49,6 +64,17 @@ export default function Home() {
                     )}
                 </div>
 
+                <div className="filter-chips">
+                    {FILTERS.map(f => (
+                        <button
+                            key={f.value}
+                            className={`filter-chip ${activeFilter === f.value ? 'active' : ''}`}
+                            onClick={() => setActiveFilter(f.value)}>
+                            {f.label}
+                        </button>
+                    ))}
+                </div>
+
                 {loading ? (
                     <p className="loading-msg">Loading books</p>
                 ) : filtered.length === 0 ? (
@@ -69,7 +95,8 @@ export default function Home() {
                 <BookModal
                     book={selected}
                     onClose={() => setSelected(null)}
-                    onStatusUpdate={handleStatusUpdate}/>
+                    onStatusUpdate={handleStatusUpdate}
+                    onDelete={handleDelete}/>
             )}
         </div>
     )

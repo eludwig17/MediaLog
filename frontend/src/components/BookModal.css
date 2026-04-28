@@ -61,3 +61,30 @@
 .modal-value {
     @apply text-xs text-stone-700 text-right break-all;
 }
+
+.modal-footer {
+    @apply px-6 py-4 border-t border-stone-100;
+}
+
+.delete-btn {
+    @apply text-xs text-red-400 bg-transparent border border-red-200
+           px-4 py-1.5 rounded-lg cursor-pointer hover:bg-red-50 transition;
+}
+
+.delete-confirm {
+    @apply flex items-center gap-3;
+}
+
+.delete-confirm-text {
+    @apply text-xs text-stone-500;
+}
+
+.delete-confirm-yes {
+    @apply text-xs px-3 py-1.5 rounded-lg bg-red-600 text-white
+           border-none cursor-pointer hover:bg-red-700 transition disabled:opacity-40;
+}
+
+.delete-confirm-no {
+    @apply text-xs px-3 py-1.5 rounded-lg border border-stone-200
+           bg-transparent text-stone-500 cursor-pointer hover:bg-stone-50 transition;
+}

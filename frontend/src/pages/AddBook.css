@@ -1,0 +1,57 @@
+@reference "tailwindcss";
+
+.add-main {
+    @apply max-w-lg mx-auto px-8 py-8 flex flex-col gap-5;
+}
+
+.back-btn {
+    @apply self-start text-sm text-stone-400 bg-transparent border-none cursor-pointer p-0 hover:text-stone-600;
+}
+
+.add-title {
+    @apply text-2xl font-medium text-stone-800;
+}
+
+.add-desc {
+    @apply text-sm text-stone-400 -mt-3;
+}
+
+.add-error {
+    @apply text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3;
+}
+
+.add-form {
+    @apply flex flex-col gap-4;
+}
+
+.field {
+    @apply flex flex-col gap-1.5;
+}
+
+.field-label {
+    @apply text-sm font-medium text-stone-700;
+}
+
+.required {
+    @apply text-red-400 ml-0.5;
+}
+
+.field-input {
+    @apply w-full h-10 px-3 text-sm border border-stone-200 rounded-lg outline-none
+           bg-white text-stone-800 placeholder-stone-300
+           focus:border-stone-400 transition;
+}
+
+.add-actions {
+    @apply flex gap-3 mt-2;
+}
+
+.btn-primary {
+    @apply px-5 py-2 text-sm font-medium bg-stone-800 text-white rounded-lg
+           border-none cursor-pointer hover:bg-stone-700 transition disabled:opacity-40;
+}
+
+.btn-secondary {
+    @apply px-5 py-2 text-sm text-stone-500 bg-transparent border border-stone-200
+           rounded-lg cursor-pointer hover:bg-stone-50 transition;
+}

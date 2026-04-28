@@ -5,7 +5,8 @@ import './NavBar.css'
 const LINKS = [
     { path: '/', label: 'Books' },
     { path: '/authors', label: 'Authors' },
-    { path: '/publishers', label: 'Publishers' }
+    { path: '/publishers', label: 'Publishers' },
+    { path: '/add', label: 'Add'}
 ]
 
 export default function NavBar() {

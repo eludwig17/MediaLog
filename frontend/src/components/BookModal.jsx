@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { updateBook } from '../services/api.js'
+import { updateBook, deleteBook } from '../services/api.js'
 import './BookModal.css'
 
 const STATUS_OPTIONS = [
@@ -8,10 +8,12 @@ const STATUS_OPTIONS = [
     { value: 'want', label: 'Want to read' },
 ]
 
-export default function BookModal({ book, onClose, onStatusUpdate }) {
+export default function BookModal({ book, onClose, onStatusUpdate, onDelete }) {
     const [status, setStatus] = useState(book.status || '')
     const [saving, setSaving] = useState(false)
     const [saved, setSaved] = useState(false)
+    const [confirmDelete, setConfirm] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     const handleStatusSave = async () => {
         setSaving(true)
@@ -24,6 +26,19 @@ export default function BookModal({ book, onClose, onStatusUpdate }) {
             console.error('Failed to update status', e)
         } finally {
             setSaving(false)
+        }
+    }
+
+    const handleDelete = async () => {
+        setDeleting(true)
+        try {
+            await deleteBook(book.isbn || book._id)
+            onDelete?.(book._id)
+            onClose()
+        } catch (e) {
+            console.error('Failed to delete book', e)
+        } finally {
+            setDeleting(false)
         }
     }
 
@@ -77,6 +92,23 @@ export default function BookModal({ book, onClose, onStatusUpdate }) {
                             <span className="modal-value">{d.value}</span>
                         </div>
                     ))}
+                </div>
+                <div className="modal-footer">
+                    {!confirmDelete ? (
+                        <button className="delete-btn" onClick={() => setConfirm(true)}>
+                            Delete book
+                        </button>
+                    ) : (
+                        <div className="delete-confirm">
+                            <span className="delete-confirm-text">Are you sure?</span>
+                            <button className="delete-confirm-yes" onClick={handleDelete} disabled={deleting}>
+                                {deleting ? 'Deleting' : 'Yes, delete'}
+                            </button>
+                            <button className="delete-confirm-no" onClick={() => setConfirm(false)}>
+                                Cancel
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

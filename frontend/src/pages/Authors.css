@@ -1,0 +1,81 @@
+@reference "tailwindcss";
+
+.authors-main {
+    @apply max-w-3xl mx-auto px-8 py-8 flex flex-col gap-6;
+}
+
+.page-header {
+    @apply flex items-baseline justify-between;
+}
+
+.page-title {
+    @apply text-2xl font-medium text-stone-800;
+}
+
+.page-count {
+    @apply text-sm text-stone-400;
+}
+
+.search-wrap {
+    @apply flex items-center bg-white border border-stone-200 rounded-xl px-4 gap-2;
+}
+
+.search-input {
+    @apply flex-1 h-11 bg-transparent border-none outline-none text-sm text-stone-700 placeholder-stone-400;
+}
+
+.search-clear {
+    @apply text-stone-400 hover:text-stone-600 bg-none border-none cursor-pointer text-xs;
+}
+
+.loading-msg {
+    @apply text-sm text-stone-400;
+}
+
+.list {
+    @apply flex flex-col gap-2;
+}
+
+.list-item {
+    @apply bg-white border border-stone-200 rounded-xl overflow-hidden;
+}
+
+.list-row {
+    @apply flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-stone-50 transition;
+}
+
+.author-avatar {
+    @apply w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center text-xs font-medium text-stone-500 flex-shrink-0;
+}
+
+.author-info {
+    @apply flex-1 min-w-0;
+}
+
+.author-name {
+    @apply text-sm font-medium text-stone-800;
+}
+
+.author-meta {
+    @apply text-xs text-stone-400 mt-0.5;
+}
+
+.chevron {
+    @apply text-xs text-stone-300;
+}
+
+.detail-rows {
+    @apply border-t border-stone-100 divide-y divide-stone-100;
+}
+
+.detail-row {
+    @apply flex justify-between items-center px-4 py-2.5 gap-4;
+}
+
+.detail-label {
+    @apply text-xs text-stone-400;
+}
+
+.detail-value {
+    @apply text-xs text-stone-600 text-right break-all;
+}

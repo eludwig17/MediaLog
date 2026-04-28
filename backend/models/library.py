@@ -28,6 +28,19 @@ def register(db):
             book["_id"] = str(book["_id"])
         return jsonify(books), 200
 
+    @library.route("/api/books/<isbn>", methods=["PUT"])
+    def update_book(isbn):
+        updates = request.get_json()
+        # will try to use the isbn first, if nothing is there then falls back on _id due to wiki scrape
+        result = db.mongo.db.books.update_one({"isbn": isbn}, {"$set": updates})
+        if result.matched_count == 0:
+            from bson import ObjectId
+            try:
+                db.mongo.db.books.update_one({"_id": ObjectId(isbn)}, {"$set": updates})
+            except Exception:
+                return jsonify({"error": "Book not found"}), 404
+        return jsonify({"success": True}), 200
+
     @library.route("/api/authors", methods=["GET"])
     def get_authors():
         authors = db.GetAuthors()

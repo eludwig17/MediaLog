@@ -9,20 +9,20 @@
 #### Author
 | Field | Type | Notes |
 |-------|------|-------|
-| `AuthorUID` | String | Primary Key |
-| `FirstName` | String | |
-| `MiddleName` | String | Nullable |
-| `LastName` | String | |
-| `DateOfBirth` | Date | |
-| `Hometown` | String | |
-| `Country` | String | |
+| `authorUID` | String | Primary Key |
+| `firstName` | String | |
+| `middleName` | String | Nullable |
+| `lastName` | String | |
+| `dateOfBirth` | Date | |
+| `hometown` | String | |
+| `country` | String | |
 
 #### Publisher
 | Field | Type | Notes |
 |-------|------|-------|
-| `PublisherUID` | String | Primary Key |
-| `Name` | String | |
-| `Location` | String | |
+| `publisherUID` | String | Primary Key |
+| `name` | String | |
+| `location` | String | |
 
 ---
 
@@ -31,13 +31,12 @@
 #### Book
 | Field | Type | Notes |
 |-------|------|-------|
-| `ISBN` | String | Primary Key / UID |
-| `Title` | String | |
-| `AuthorUID` | String | FK → Author |
-| `PublishYear` | Int | |
-| `PublisherUID` | String | FK → Publisher |
-| `Locale` | String | e.g. `"en"`, `"fr"` |
-| `TBA` | — | To be determined |
+| `iSBN` | String | Primary Key / UID |
+| `title` | String | |
+| `authorIDs` | String | FK → Author |
+| `publishYear` | Int | |
+| `publisherUIDs` | String | FK → Publisher |
+| `locale` | String | e.g. `"en"`, `"fr"` |
 
 ---
 
@@ -48,6 +47,11 @@
 ### Books
 ```
 GET /api/books
+POST /api/books/add
+PUT /api/books/<isbn>
+DELETE /api/books/<isbn>
+
+routes below don't exist but was in original plan
 GET /api/books?search=%s&lang=en&publish_year>{date}
 GET /api/books?limit=%d&page=%d
 ```
@@ -55,6 +59,8 @@ GET /api/books?limit=%d&page=%d
 ### Authors
 ```
 GET /api/authors
+
+routes below don't exist but was in original plan
 GET /api/authors?search=%s
 GET /api/authors?limit=%d&page=%d
 ```
@@ -62,8 +68,15 @@ GET /api/authors?limit=%d&page=%d
 ### Publishers
 ```
 GET /api/publishers
+
+routes below don't exist but was in original plan
 GET /api/publishers?search=%s
 GET /api/publishers?limit=%d&page=%d
+```
+
+### Import Books
+```
+GET /books/import?url=<wikipedia_url>
 ```
 
 ### Example Request
@@ -79,58 +92,25 @@ GET https://{backend_url}:{port}/api/books?search="lang=en,publish_year=>2018-5-
 User clicks button on Frontend
         │
         ▼
-Webpage needs to render a list of books
-        │
-        ▼
 Frontend sends GET request to backend
         │   GET {backend_url}/api/books
         ▼
-[Anthony] Backend runs SQL query
-        │   SELECT * FROM books
+[Anthony] Flask Route calls DBAPI.GetBooks()
+        │   
         ▼
-[Brian]  Convert SQL results → Python OOP objects (classes)
+[Brian]  PyMongo runs db.books.find() against MongoDB
         │
         ▼
-[Backend] Serialize objects → JSON
+[Backend] Results serialized to JSON
         │
-[Anthony] Return JSON to client
+[Anthony] Flask Returns JSON to frontend
         │
         ▼
-Client receives and renders the list
+React renders the book list
 ```
 
 ---
 
 ## Search Query Parsing
 
-**Incoming request:**
-```
-GET /api/books?search="lang=en,publish_year=>2018-5-2"
-```
-
-**Request body / query param:**
-```json
-{ "search": "lang=en,publish_year=>2018-5-2" }
-```
-
-**Parsing logic:**
-```python
-tokens = search.split(',')
-# tokens = ["lang=en", "publish_year=>2018-5-2"]
-
-for token in tokens:
-    sub_tokens = token.split('=', 1)
-    query_key   = sub_tokens[0]   # e.g. "lang"
-    query_value = sub_tokens[1]   # e.g. "en"
-
-    match query_key:
-        case "lang":
-            results = db.query("SELECT * FROM books WHERE locale = ?", query_value)
-
-        case "publish_year":
-            results = db.query("SELECT * FROM books WHERE publish_year > ?", query_value)
-
-        case "last_name":
-            results = db.query("SELECT * FROM books WHERE last_name = ?", query_value)
-
-    return to_json(results) 
+Search is handled on the client-side in React. Then the frontend fetches all teh books from the `GET /api/books` and filters by title using JS Array.filter()
